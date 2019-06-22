@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+<head>
+    <title>查询</title>
+    <meta charset="UTF-8">
+    <!--<meta name="apple-mobile-web-app-status-bar-style" content="#727272" />-->
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=0">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/muse-ui/dist/muse-ui.css">
+    <script src="https://unpkg.com/muse-ui/dist/muse-ui.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--标题栏-->
+    <mu-appbar style="width: 100%; font-weight: bolder;color: #ffc511" color="#727272" >
+        <mu-button icon slot="left">
+            <mu-icon value="SY" color="rgb(251, 84, 71)"></mu-icon>
+        </mu-button >
+        贫困信息
+        <mu-menu slot="right">
+            <mu-button flat>查询类型</mu-button>
+            <mu-list slot="content">
+                <mu-list-item button>
+                    <mu-list-item-content>
+                        <mu-list-item-title>建档立卡查询</mu-list-item-title>
+                    </mu-list-item-content>
+                </mu-list-item>
+                <mu-list-item button>
+                    <mu-list-item-content>
+                        <mu-list-item-title>受助学生查询</mu-list-item-title>
+                    </mu-list-item-content>
+                </mu-list-item>
+            </mu-list>
+        </mu-menu>
+    </mu-appbar><br>
+
+    <!--输入信息-->
+    <mu-container style=" padding-left: 30px;">
+
+            <mu-row gutter>
+                <mu-col span="12" lg="4" sm="6">
+                    <mu-select @change="sel()" label="地区" v-model="area" full-width>
+                        <mu-option  v-for="option,index in options" :key="option" :label="option" :value="option"></mu-option>
+                    </mu-select>
+                </mu-col>
+            </mu-row>
+
+        <mu-form ref="form" :model="validateForm" class="mu-demo-form">
+            <mu-form-item label="姓名" help-text="输入姓名查询" prop="username" >
+                <mu-text-field  v-model="validateForm.username" prop="username"></mu-text-field>
+            </mu-form-item>
+            <mu-form-item label="身份证" help-text="输入身份证查询" prop="password" :rules="passwordRules">
+                <mu-text-field   v-model="validateForm.password" prop="password"></mu-text-field>
+            </mu-form-item>
+            <mu-form-item> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <mu-button color="primary" @click="getAll">查询</mu-button>
+            </mu-form-item>
+        </mu-form>
+    </mu-container>
+    <!--<br><br>-->
+    <!--表-->
+    <mu-container >
+        <mu-paper :z-depth="1">
+            <mu-data-table stripe :columns="columns" :sort.sync="sort"
+                           @sort-change="handleSortChange" :data="list.slice(0, 100000)">
+                <template slot="expand" slot-scope="prop">
+                    <div style="padding: 24px;" >
+                        民族：{{prop.row.nation}}<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        所属区：{{prop.row.area}}
+                        <P>健康情况：{{prop.row.healthCondition}}<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;</span>
+                            劳动能力：{{prop.row.laborSkills}}
+                        </P>
+                    </div>
+
+                </template>
+                <template slot-scope="scope">
+                    <td>{{scope.row.name}}</td>
+                    <td class="is-right">{{scope.row.identityCard}}</td>
+                </template>
+            </mu-data-table>
+            <div style="height: 80px"></div>
+        </mu-paper>
+    </mu-container>
+</div>
+</body>
+<!-- 先引入 Vue -->
+<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+<!-- 引入组件库 -->
+<script>
+
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+
+                //身份证正则表达式
+                p : /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/,
+                passwordRules: [
+                    { validate: (val) => !!val, message: '请输入身份证进行查询'},
+                    { validate: (val) => val.length==18 && this.p.test(val), message: '输入的格式不正确,请重新输入'}
+                ],
+                area:'全部',
+                options: [
+                    '全部','北塔区', '双清区', '大祥区', '城步苗族自治县',
+                    '新宁县', '新邵县', '武冈市', '洞口县',
+                    '绥宁县', '邵东县', '邵阳县', '邵阳经济开发区',
+                    '隆回县'
+                ],
+
+                validateForm: {
+                    username: '',
+                    password: ''
+                },
+
+                sort: {
+                    name: '',
+                    order: 'asc'
+                },
+                columns: [
+                    { title: '姓名', width: 130, name: 'name'},
+                    { title: '身份证', name: 'calories', width: 220, align: 'center', sortable: true },
+                ],
+                list: []
+            }
+        },
+        methods: {
+            handleSortChange({name, order}) {
+                this.list = this.list.sort((a, b) => order === 'asc' ? a[name] - b[name] : b[name] - a[name]);
+            },
+            sel(){
+                console.info(this.area)
+                // console.info(this.normal.value0)
+            },
+
+            getAll() {
+                var id;
+                var area1;
+                if(this.area=="全部"){
+                    area1='';
+                }else {
+                    area1=this.area;
+                }
+                if(this.validateForm.username=='' && this.validateForm.password==''){
+                    console.info(this.validateForm.password)
+                    return;
+                }
+
+                if (this.p.test(this.validateForm.password)) {
+                    id = this.validateForm.password
+                    console.info(this.validateForm.password)
+                }else {
+                    id='';
+                }
+                //发送 post 请求
+                this.$http.post('http://127.0.0.1:8080/test/fileAll'
+                    , {name: this.validateForm.username, idCard: id, area: area1}, {emulateJSON: true}).then(function (res) {
+                    // document.write(res.body);
+                    this.list=res.body;
+                    console.info(res.body)
+                }, function (res) {
+
+                    console.log(res.status);
+                });
+
+
+            }
+
+
+        }
+    })
+</script>
+
+<style>
+    .mu-text-field mu-input-content{
+        margin-left: 15px;
+    }
+
+    . container{
+        padding-left: 20px;
+    }
+
+    .mu-demo-form{
+        width:88%;
+        max-width: 460px;
+    }
+</style>
+</html>
