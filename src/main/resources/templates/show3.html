@@ -16,11 +16,11 @@
         <mu-button icon slot="left">
             <mu-icon value="SY" color="rgb(251, 84, 71)"></mu-icon>
         </mu-button >
-        建档立卡查询
+        受助学生查询
         <mu-menu slot="right">
             <mu-button flat>查询类型</mu-button>
             <mu-list slot="content">
-                <mu-list-item button >
+                <mu-list-item button v-on:click="rel1()">
                     <mu-list-item-content >
                         <mu-list-item-title >建档立卡查询</mu-list-item-title>
                     </mu-list-item-content>
@@ -108,11 +108,10 @@
             }
         },
         methods: {
-            rel2(){
+            rel1(){
                 console.info("asdfadsf")
-                window.location.href="../templates/show3.html";
+                window.location.href="../templates/show2.html";
             },
-
 
             getAll() {
                 console.info(this.list.length)
@@ -122,27 +121,27 @@
                     }
                     console.log('form valid: ', result)
 
-                var id;
-                // if( this.validateForm.password==''){
-                //     return;
-                // }
+                    var id;
+                    // if( this.validateForm.password==''){
+                    //     return;
+                    // }
 
-                if (this.p.test(this.validateForm.password)) {
-                    id = this.validateForm.password
-                    console.info(this.validateForm.password)
-                }else {
-                    id='';
-                }
-                //发送 post 请求
-                this.$http.post('/test/fileAll'
-                    , {name: this.validateForm.username, idCard: id}, {emulateJSON: true}).then(function (res) {
-                    // document.write(res.body);
-                    this.list=res.body;
-                    console.info(res.body)
-                }, function (res) {
+                    if (this.p.test(this.validateForm.password)) {
+                        id = this.validateForm.password
+                        console.info(this.validateForm.password)
+                    }else {
+                        id='';
+                    }
+                    //发送 post 请求
+                    this.$http.post('/test/fileAll'
+                        , {name: this.validateForm.username, idCard: id}, {emulateJSON: true}).then(function (res) {
+                        // document.write(res.body);
+                        this.list=res.body;
+                        console.info(res.body)
+                    }, function (res) {
 
-                    console.log(res.status);
-                });
+                        console.log(res.status);
+                    });
 
                 });
             }

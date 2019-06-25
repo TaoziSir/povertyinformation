@@ -17,21 +17,17 @@ public interface PoorImtMapper {
 
     /**
      * 根据条件查询
+     *
+     * "SELECT name,area,identityCard,laborSkills,nation,healthCondition FROM shu",
      * @param name
-     * @param area
      * @param idCard
      * @return
      */
-    @Select({"<script>","SELECT name,area,identityCard,laborSkills,nation,healthCondition FROM shu",
-            "WHERE 1=1","<when test='name!=null'>",
+    @Select({"<script>",
+            "SELECT name,area,village,administrativeVillage,overcomePoverty FROM studentdat",
+            "WHERE 1=1",
             " AND name = #{name}",
-            "</when>",
-            "<when test='area!=null'>",
-            " AND area = #{area}",
-            "</when>",
-            "<when test='idCard!=null'>",
-            " AND identityCard = #{idCard}",
-            "</when>",
+            " AND idCard = #{idCard}",
             "</script>"})
-    public List<Bookbuilding> fileAll(@Param("name")String name,@Param("area")String area,@Param("idCard")String idCard);
+    public List<Bookbuilding> fileAll(@Param("name")String name,@Param("idCard")String idCard);
 }

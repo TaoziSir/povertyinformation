@@ -15,14 +15,11 @@ public class PoorlmtServiceImpl implements PoorlmtService {
     private PoorImtMapper poorlmt;
 
 
-    @Override
-    public List<String> groupArea() {
-        return poorlmt.groupArea();
-    }
+
 
     @Override
-    public List<Bookbuilding> fileAll(String name, String area, String idCard) {
-        return poorlmt.fileAll(name,area,idCard);
+    public List<Bookbuilding> fileAll(String name,  String idCard) {
+        return poorlmt.fileAll(name,idCard);
     }
 
 

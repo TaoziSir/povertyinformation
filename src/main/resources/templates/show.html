@@ -77,7 +77,6 @@
                             劳动能力：{{prop.row.laborSkills}}
                         </P>
                     </div>
-
                 </template>
                 <template slot-scope="scope">
                     <td>{{scope.row.name}}</td>
@@ -130,6 +129,10 @@
             }
         },
         methods: {
+            sss(e){
+                console.info(e)
+            },
+
             handleSortChange({name, order}) {
                 this.list = this.list.sort((a, b) => order === 'asc' ? a[name] - b[name] : b[name] - a[name]);
             },
