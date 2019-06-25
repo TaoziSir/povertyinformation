@@ -25,7 +25,7 @@
                         <mu-list-item-title >建档立卡查询</mu-list-item-title>
                     </mu-list-item-content>
                 </mu-list-item>
-                <mu-list-item button v-on:click="rel2()">
+                <mu-list-item button>
                     <mu-list-item-content>
                         <mu-list-item-title>受助学生查询</mu-list-item-title>
                     </mu-list-item-content>
@@ -33,7 +33,8 @@
             </mu-list>
         </mu-menu>
     </mu-appbar><br>
-
+    <br>
+    <br>
     <!--输入信息-->
     <mu-container style=" padding-left: 30px;">
 
@@ -66,12 +67,25 @@
                     <b style="font-weight: bolder">姓
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         名：</b>{{a.name}}
+
                     <br>
                     <br>
-                    <b style="font-weight: bolder">脱贫属性：</b>{{a.overcomePoverty}}
+                    <b style="font-weight: bolder">学
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        校：</b>{{a.school}}
                     <br>
                     <br>
-                    <b style="font-weight: bolder">地址信息：</b>邵阳市{{a.area}}{{a.village}}{{a.administrativeVillage}}
+                    <b style="font-weight: bolder">受助金额：</b>{{a.helpedmoney}}
+
+                    <br>
+                    <br>
+                    <b style="font-weight: bolder">受助信息：</b>{{a.helpedMessage}}
+                    <br>
+                    <br>
+                    <b style="font-weight: bolder">受助项目：</b>{{a.helpedProject}}
+                    <br>
+                    <br>
+                    <b style="font-weight: bolder">地址信息：</b>{{a.address}}
                 </div>
 
             </div>
@@ -110,7 +124,7 @@
         methods: {
             rel1(){
                 console.info("asdfadsf")
-                window.location.href="../templates/show2.html";
+                window.location.href="../test/show2";
             },
 
             getAll() {
@@ -133,7 +147,7 @@
                         id='';
                     }
                     //发送 post 请求
-                    this.$http.post('/test/fileAll'
+                    this.$http.post('/test/fileAllStu'
                         , {name: this.validateForm.username, idCard: id}, {emulateJSON: true}).then(function (res) {
                         // document.write(res.body);
                         this.list=res.body;

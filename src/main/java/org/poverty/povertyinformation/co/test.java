@@ -43,6 +43,12 @@ public class test {
 
         return "/show2.html";
     }
+    @RequestMapping("/show3")
+    public String show3() {
+        System.out.println("show3");
+
+        return "/show3.html";
+    }
     @RequestMapping("/csv2")
     @ResponseBody
     public String csv2() {

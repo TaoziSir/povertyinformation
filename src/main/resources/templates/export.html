@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理登陆</title>
+  <script src="Boot/jquery.js"></script>
+  <script src="Boot/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="Boot/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="Boot/css/bootstrap.min.css">
+  <script src="Boot/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/muse-ui/dist/muse-ui.css">
+  <script src="https://unpkg.com/muse-ui/dist/muse-ui.js"></script>
+
+</head>
+<body >
+<div id="eee">
+
+
+        <div class="jumbotron">
+          <div class="onediv1">
+            <h2>🍑邵阳市贫困信息导出系统</h2>
+            <br><br>
+
+            <div class="nie">
+              <div class="nie1">
+              <p>建档立卡信息导出</p>
+
+              <mu-container style=" padding-left: 30px;">
+                <mu-row gutter style="width: 700px">
+                  <mu-col span="12" lg="4" sm="6">
+                    <mu-select @change="" label="地区" v-model="area" full-width>
+                      <mu-option  v-for="option,index in options" :key="option" :label="option" :value="option"></mu-option>
+                    </mu-select>
+                  </mu-col>
+                </mu-row>
+
+
+                <mu-row gutter style="width: 700px">
+                  <mu-col span="12" lg="4" sm="6">
+                    <mu-select @change="" label="脱贫情况" v-model="ping" full-width>
+                      <mu-option  v-for="pings,index in pings" :key="pings" :label="pings" :value="pings"></mu-option>
+                    </mu-select>
+                  </mu-col>
+                </mu-row>
+              </mu-container>
+
+              <div class="form-group">
+                <p>
+                  <a class="btn btn-primary btn-lg" href="#" role="button"
+                     @click="show()"
+                     style="margin-left: 10px;     width: 234px;"
+                  >
+                    导出(可只选一种)
+                  </a>
+
+                </p>
+              </div>
+              </div>
+            </div>
+            <div class="stu">
+              <div class="nie1">
+                <p>受助学生信息导出</p>
+
+                <mu-container style=" padding-left: 30px;">
+                  <mu-row gutter style="width: 700px">
+                    <mu-col span="12" lg="4" sm="6">
+                      <mu-select @change="" label="学校" v-model="school" full-width>
+                        <mu-option  v-for="schools,index in schools" :key="schools" :label="schools" :value="schools"></mu-option>
+                      </mu-select>
+                    </mu-col>
+                  </mu-row>
+
+
+                  <mu-row gutter style="width: 700px">
+                    <mu-col span="12" lg="4" sm="6">
+                      <mu-select @change="" label="受助信息" v-model="msg" full-width>
+                        <mu-option  v-for="msgs,index in msgs" :key="msgs" :label="msgs" :value="msgs"></mu-option>
+                      </mu-select>
+                    </mu-col>
+                  </mu-row>
+                </mu-container>
+
+                <div class="form-group">
+                  <p>
+                    <a class="btn btn-primary btn-lg" href="#" role="button"
+                       @click="show()"
+                       style="margin-left: 10px;     width: 234px;"
+                    >
+                      导出(可只选一种)
+                    </a>
+
+                  </p>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+</div>
+</body>
+<script >
+
+  new Vue({
+    el: '#eee',
+    data: {
+        ok: false,
+        tiao:false,
+        list:[],
+        area:'全部',
+        options: [
+            '全部','北塔区', '双清区', '大祥区', '城步苗族自治县',
+            '新宁县', '新邵县', '武冈市', '洞口县',
+            '绥宁县', '邵东县', '邵阳县', '邵阳经济开发区',
+            '隆回县'
+        ],
+        ping:'全部',
+        pings: [
+            '全部','建档立卡未脱贫','建档立卡已脱贫'
+        ],
+        school:'全部',
+        schools: [
+              '全部','湘中幼专', '哈博'
+        ],
+        msg:'全部',
+        msgs: [
+            '全部','学费中减免','银行卡打款成功'
+        ],
+    },
+    methods:{
+      show(){
+        var name;
+        var aid;
+
+        this.list.forEach((item) => {
+
+          if(this.empName==item.empId&&this.empPwd==item.pwd){
+            name=item.name;
+            aid=item.authority;
+            this.tiao=true
+          }else {
+            this.ok=true
+          }
+        })
+        console.info(this.tiao)
+        if (this.tiao) {
+        window.location.href='http://localhost:8080?name='+name+'&aid='+aid
+        }else {
+          console.info("密码")
+        }
+      },
+
+
+    },
+    mounted() {
+
+        
+    }
+
+    // },
+    // mounted(){
+    //   get(){
+    //     //发送get请求
+    //     this.$http.get('http://127.0.0.1/Hotel/empControlle/empList.action').then(function(res){
+    //       console.info(res)
+    //     },function(){
+    //       console.log('请求失败处理');
+    //     });
+    //   }
+
+  })
+</script>
+
+<style>
+      .onediv1{
+        margin:auto;
+        /*border: red 1px solid;*/
+        width: 880px;
+        margin-top: 40px;
+      }
+      .nie{
+        margin-left: 50px;
+        border: #949494 1px solid;
+        width: 350px;
+        background-color: #ffffff;
+        border-radius:10px;
+        box-shadow:0 0 10px #878787 inset;
+        /*margin-top: 100px;*/
+      }
+      .nie1{
+        margin:auto;
+        /*border: red 1px solid;*/
+        width: 280px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+      .stu{
+        margin-left: 50px;
+        border: #949494 1px solid;
+        width: 350px;
+        background-color: white;
+        border-radius:10px;
+        box-shadow:0 0 10px #878787 inset;
+
+        position: relative;
+        left:400px;
+        top:-350px;
+      }
+       .jumbotron{
+         height: 800px;
+         padding-left: 0px;
+       }
+
+
+</style>
+</html>
