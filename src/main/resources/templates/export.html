@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>管理登陆</title>
-  <script src="Boot/jquery.js"></script>
-  <script src="Boot/js/bootstrap.js"></script>
-  <link rel="stylesheet" href="Boot/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="Boot/css/bootstrap.min.css">
-  <script src="Boot/vue.js"></script>
+    <title>导出系统</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <!-- 引入样式 -->
@@ -32,7 +33,7 @@
               <mu-container style=" padding-left: 30px;">
                 <mu-row gutter style="width: 700px">
                   <mu-col span="12" lg="4" sm="6">
-                    <mu-select @change="" label="地区" v-model="area" full-width>
+                    <mu-select  label="地区" v-model="area" full-width>
                       <mu-option  v-for="option,index in options" :key="option" :label="option" :value="option"></mu-option>
                     </mu-select>
                   </mu-col>
@@ -41,7 +42,7 @@
 
                 <mu-row gutter style="width: 700px">
                   <mu-col span="12" lg="4" sm="6">
-                    <mu-select @change="" label="脱贫情况" v-model="ping" full-width>
+                    <mu-select label="脱贫情况" v-model="ping" full-width>
                       <mu-option  v-for="pings,index in pings" :key="pings" :label="pings" :value="pings"></mu-option>
                     </mu-select>
                   </mu-col>
@@ -51,10 +52,10 @@
               <div class="form-group">
                 <p>
                   <a class="btn btn-primary btn-lg" href="#" role="button"
-                     @click="show()"
+                     @click="dao1()"
                      style="margin-left: 10px;     width: 234px;"
                   >
-                    导出(可只选一种)
+                    导出(可只选一项)
                   </a>
 
                 </p>
@@ -66,18 +67,18 @@
                 <p>受助学生信息导出</p>
 
                 <mu-container style=" padding-left: 30px;">
-                  <mu-row gutter style="width: 700px">
+                  <mu-row gutter style="width: 600px">
                     <mu-col span="12" lg="4" sm="6">
-                      <mu-select @change="" label="学校" v-model="school" full-width>
+                      <mu-select  label="学校" v-model="school" full-width>
                         <mu-option  v-for="schools,index in schools" :key="schools" :label="schools" :value="schools"></mu-option>
                       </mu-select>
                     </mu-col>
                   </mu-row>
 
 
-                  <mu-row gutter style="width: 700px">
+                  <mu-row gutter style="width: 600px">
                     <mu-col span="12" lg="4" sm="6">
-                      <mu-select @change="" label="受助信息" v-model="msg" full-width>
+                      <mu-select  label="受助信息" v-model="msg" full-width>
                         <mu-option  v-for="msgs,index in msgs" :key="msgs" :label="msgs" :value="msgs"></mu-option>
                       </mu-select>
                     </mu-col>
@@ -87,10 +88,10 @@
                 <div class="form-group">
                   <p>
                     <a class="btn btn-primary btn-lg" href="#" role="button"
-                       @click="show()"
+                       @click="dao2()"
                        style="margin-left: 10px;     width: 234px;"
                     >
-                      导出(可只选一种)
+                      导出(可只选一项)
                     </a>
 
                   </p>
@@ -104,6 +105,7 @@
         </div>
 </div>
 </body>
+<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
 <script >
 
   new Vue({
@@ -121,7 +123,7 @@
         ],
         ping:'全部',
         pings: [
-            '全部','建档立卡未脱贫','建档立卡已脱贫'
+            '全部','建档立卡未脱贫','建档立卡已脱贫（享受政策）'
         ],
         school:'全部',
         schools: [
@@ -133,27 +135,31 @@
         ],
     },
     methods:{
-      show(){
-        var name;
-        var aid;
-
-        this.list.forEach((item) => {
-
-          if(this.empName==item.empId&&this.empPwd==item.pwd){
-            name=item.name;
-            aid=item.authority;
-            this.tiao=true
-          }else {
-            this.ok=true
+      dao1(){
+          var area1=this.area;
+          var ping1=this.ping;
+      if(this.area=="全部"){
+          area1="";
+       }
+      if(this.ping=="全部"){
+          ping1="";
           }
-        })
-        console.info(this.tiao)
-        if (this.tiao) {
-        window.location.href='http://localhost:8080?name='+name+'&aid='+aid
-        }else {
-          console.info("密码")
-        }
+        window.location.href='../test/excel?area='+area1+'&ping='+ping1;
+
       },
+        dao2(){
+            var school1=this.school;
+            var msg1=this.msg;
+            if(this.school=="全部"){
+                school1="";
+            }
+            if(this.msg=="全部"){
+                msg1="";
+            }
+            window.location.href='../test/excelStu?school='+school1+'&hm='+msg1;
+
+
+        }
 
 
     },
@@ -162,16 +168,7 @@
         
     }
 
-    // },
-    // mounted(){
-    //   get(){
-    //     //发送get请求
-    //     this.$http.get('http://127.0.0.1/Hotel/empControlle/empList.action').then(function(res){
-    //       console.info(res)
-    //     },function(){
-    //       console.log('请求失败处理');
-    //     });
-    //   }
+
 
   })
 </script>

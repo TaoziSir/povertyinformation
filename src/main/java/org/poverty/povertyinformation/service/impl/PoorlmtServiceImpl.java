@@ -22,5 +22,10 @@ public class PoorlmtServiceImpl implements PoorlmtService {
         return poorlmt.fileAll(name,idCard);
     }
 
+    @Override
+    public List<Bookbuilding> exportBookbuilding(String area, String over) {
+        return poorlmt.exportBookbuilding(area, over);
+    }
+
 
 }

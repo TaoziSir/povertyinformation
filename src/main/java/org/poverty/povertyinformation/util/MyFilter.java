@@ -12,9 +12,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
-@Order(1)
-//重点
-@WebFilter(filterName = "testFilter1", urlPatterns = "/*")
+//@Order(1)
+////重点
+//@WebFilter(filterName = "testFilter1", urlPatterns = "/*")
 public class MyFilter implements Filter {
 
 	public void destroy() {

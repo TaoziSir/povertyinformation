@@ -10,4 +10,6 @@ public interface PoorlmtService {
 
 
     public List<Bookbuilding> fileAll(String name,String idCard);
+    public List<Bookbuilding> exportBookbuilding(String area,String over);
+
 }

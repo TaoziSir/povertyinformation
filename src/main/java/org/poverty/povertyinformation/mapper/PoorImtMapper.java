@@ -30,4 +30,17 @@ public interface PoorImtMapper {
             " AND idCard = #{idCard}",
             "</script>"})
     public List<Bookbuilding> fileAll(@Param("name")String name,@Param("idCard")String idCard);
+
+    @Select({"<script>",
+            "SELECT name,idCard,area,village,administrativeVillage,overcomePoverty FROM studentdat",
+            "WHERE 1=1",
+            "<when test='area!=null'>",
+            " AND area = #{area}",
+            "</when>",
+            "<when test='over!=null'>",
+            " AND overcomePoverty = #{over}",
+            "</when>",
+            "</script>"})
+    public List<Bookbuilding> exportBookbuilding(@Param("area")String area,@Param("over")String overcomePoverty);
+
 }

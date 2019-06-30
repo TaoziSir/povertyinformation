@@ -16,4 +16,16 @@ public interface StuMapper1 {
             "</script>"})
     public List<RecipientStu> fileAllStu(@Param("name")String name, @Param("idCard")String idCard);
 
+    @Select({"<script>",
+            "SELECT name,school,idCard,address,helpedProject," +
+                    "helpedmoney,helpedMessage FROM schooldata",
+            "WHERE 1=1",
+            "<when test='school!=null'>",
+            " AND school = #{school}",
+            "</when>",
+            "<when test='hm!=null'>",
+            " AND helpedMessage = #{hm}",
+            "</when>",
+            "</script>"})
+    public List<RecipientStu> exportRecipientStu(@Param("school")String school, @Param("hm")String hm);
 }
